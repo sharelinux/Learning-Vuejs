@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue计算属性,方法和侦听器</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        {{fullName}}
+        {{age}}
+    </div>
+
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                firstName: "Lee",
+                lastName: "Allen",
+                fullName: "Lee Allen",
+                age: 28,
+            },
+
+            // 01. 计算属性实现 具有属性缓存机制
+            // computed:  {
+            //     fullName: function() {
+            //         console.log("计算了一次")
+            //         return this.firstName + " " + this.lastName;
+            //     }
+            // },
+
+            // 02. 方法实现 每次执行，不具备缓存机制
+            // methods: {
+            //     fullName: function() {
+            //         console.log("计算了一次")
+            //         return this.firstName + " " + this.lastName;
+            //         // 需要调用方法 {{fullName()}}
+            //     }
+            // }
+
+            // 03. 侦听器实现 具有属性缓存机制 等价于计算属性
+            watch: {
+                firstName: function() {
+                    console.log("计算了一次")
+                    this.fullName =  this.firstName + " " + this.lastName;
+                },
+                lastName: function() {
+                    console.log("计算了一次")
+                    this.fullName =  this.firstName + " " + this.lastName;
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
