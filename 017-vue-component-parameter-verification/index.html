@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue组件参数校验与非props特性</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- 该处的click为自定义事件，需要子组件触发才会执行 -->
+        <!-- <child @click="handelClick" content="child"></child> -->
+
+        <!-- 添加修饰符进行原生事件监听 -->
+        <!-- 通过属性方式父组件给传递传递值 -->
+        <child content="Hello World"></child>
+
+        <!-- <child :content="hello world"></child> -->
+
+        <!-- 非props属性的使用 -->
+        <!-- 属性会显示在子组件最外层的标签上，非props特性使用场景很少-->
+        <non-props-child content="Hello World"></non-props-child>
+
+    </div>
+    <script type="text/javascript">
+        // 1. vue全局组件, 用测试props特性
+        Vue.component("child", {
+            // 接收父组件传递的content值，使用props列表
+            // props: ['content'],
+
+            // props声明对父组件传递的值进行接收、约束和校验
+            props: {
+                // 1. 类型校验
+                // content: Number,
+
+                // 使用列表进行类型校验
+                // content: [Number, String]
+
+                // 使用对象进行详细约束
+                content: {
+                    // 定义类型
+                    type: [Number, String],
+                    // // 为true时必穿字段
+                    // required: false,
+                    // // 默认值
+                    // default: 'default value'
+
+                    // 通过自定义方法进行校验 与required、default冲突
+                    validator: function(value) {
+                        return (value.length > 5);
+                    }
+
+                },
+            },
+
+            // 使用传递的父组件传值, 不会再dom结构中显示.
+            template: `<div>{{content}}</div>`,
+        });
+
+        // 2. vue全局组件, 用测试非props特性
+        Vue.component("non-props-child", {
+            template: `<div>Non-props</div>`
+        });
+
+        var vm = new Vue({
+            el: '#root',
+        })
+    </script>
+</body>
+</html>
