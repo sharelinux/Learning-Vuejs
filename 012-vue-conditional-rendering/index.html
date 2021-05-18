@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue中的条件渲染</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!--  v-if和else之间不能有其他标签 -->
+<!--         <div v-if="show">{{message}}</div>
+        <div v-else="show">no message</div> -->
+
+        <!-- 具有多条件比较的条件表达式 -->
+<!--         <div v-if="str === 'a'">This str is a</div>
+        <div v-else-if="str === 'b'">This str is b</div>
+        <div v-else>unknow message</div> -->
+
+        <!-- 具有key值得条件表达式 key值不同则vue就不会复用该dom组件 -->
+        <div v-if="show">
+            用户名: <input key="username" name="username" value="">
+        </div>
+        <div v-else>
+            邮箱: <input key="email" name="email" value="">
+        </div>
+
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                show: false,
+                message: "Hello show a message",
+                str: "a"
+            },
+        });
+    </script>
+</body>
+</html>
