@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue组件绑定原生事件</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <!-- 该处的click为自定义事件，需要子组件触发才会执行 -->
+        <!-- <child @click="handelClick" content="child"></child> -->
+
+        <!-- 添加修饰符进行原生事件监听 -->
+        <child @click.native="handelNativeClick" content="child"></child>
+    </div>
+    <script type="text/javascript">
+        // vue全局组件
+        Vue.component("child", {
+            // 接收父组件传递的content值，使用props列表
+            props: ['content'],
+            // props: {
+            //     content: {
+            //         // 定义类型
+            //         type: String,
+            //     },
+            // },
+
+            // template: `<div>Hello World</div>`,
+            // template: `<div @click="handleChildClick">{{content}}</div>`,
+            // methods: {
+            //     handleChildClick: function() {
+            //         // 通过事件触发父组件click自定义事件
+            //         this.$emit('click');
+            //         console.log("childClick");
+            //     }
+
+            // },
+
+            // 使用修饰符，使用原生事件
+            template: `<div>{{content}}</div>`
+        });
+
+
+        var vm = new Vue({
+            el: '#root',
+            methods: {
+                //  该方法不生效
+                handelClick: function() {
+                    // alert('Click');
+                    console.log('click');
+                },
+                handelNativeClick: function() {
+                    console.log('NativeClick');
+                },
+            }
+        })
+    </script>
+</body>
+</html>
