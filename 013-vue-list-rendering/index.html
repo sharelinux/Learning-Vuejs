@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue中的列表渲染</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 01 直接循环列表 -->
+        <!-- <div v-for="item of list">
+            {{item}}
+        </div> -->
+
+        <!-- 02 带有索引的循环列表 -->
+        <!-- <div v-for="(item, index) of list">
+            {{index}} -- {{item}}
+        </div> -->
+
+        <!-- 03 具有key值的列表遍历-->
+        <!-- <template v-for="(item, index) of list"
+             v-bind:key="item.id">
+                <div>
+                     {{index}} ----------------
+                </div>
+                <span>
+                    {{item.text}}
+                </span>
+        </template> -->
+
+        <!-- 操作方式1 通过vue暴露的7个数组的方法来操作数组,从而改变数据,页面也随之变化 push,pop,shift,unshift,splice,sort,reverse
+        vm.list.splice(1,1,{id:"3333", text:"update message"})
+        -->
+
+        <!-- 操作方式2
+        通过改变数据的引用地址,从而实现数据变化,页面变化.
+        vm.list = [] // 新的完整数组数据
+        -->
+
+        <!-- 04 直接循环对象-->
+        <!-- <div v-for="item of userInfo">
+            {{item}}
+        </div> -->
+
+        <!-- 05 具有key、index循环遍历对象 -->
+        <template v-for="(item, key, index) of userInfo">
+            <div>
+                {{index}} --------------------
+            </div>
+            <div>{{key}} --- {{item}}</div>
+        </template>
+
+
+    </div>
+
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                // 循环列表数据
+                list: [
+                    {id:"0100001", text: "hello"},
+                    {id:"0100002", text: "every"},
+                    {id:"0100003", text: "one"}
+                ],
+
+                // 循环对象数据
+                userInfo: {
+                    name: "lee",
+                    age: 28,
+                    gender: "male",
+                    address: "beijing"
+                },
+            }
+        })
+    </script>
+</body>
+</html>
