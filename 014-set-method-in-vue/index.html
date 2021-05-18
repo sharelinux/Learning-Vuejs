@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue中的set方法</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- <template v-for="(item, key, index) of userInfo">
+            <div>{{index}} -- {{key}} --- {{item}}</div>
+        </template> -->
+
+        <!-- 1. Vue.set全局方法添加对象属性 -->
+        <!-- Vue.set(vm.userInfo,"salary","secret") -->
+
+        <!-- 2. vue实例的方法进行添加对象属性 -->
+        <!-- vm.$set(vm.userInfo,"salary","secret") -->
+
+        <div v-for="(item, index) of list"
+             :key="item.id">
+            {{index}} --- {{item}}
+        </div>
+        <!-- 3. Vue全局数组上的set方法改变数组数据 -->
+        <!-- Vue.set(vm.list,1,999) -->
+
+        <!-- 4. Vue实例的set方法改变数组数据 -->
+        <!-- vm.$set(vm.list,1,888) -->
+
+    </div>
+
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                // 循环列表数据
+                list: [1,2,3,4,5],
+
+                // 循环对象数据
+                userInfo: {
+                    name: "lee",
+                    age: 28,
+                    gender: "male",
+                    address: "beijing"
+                },
+            }
+        })
+    </script>
+</body>
+</html>
