@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue组件使用中的细节</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <table>
+            <tbody>
+                <!-- <row></row>
+                <row></row>
+                <row></row> -->
+
+                <!-- 0x01 使用is属性解决组件嵌套关系问题 -->
+                <!-- ul、ol、select -->
+                <tr is="row"></tr>
+                <tr is="row"></tr>
+                <tr is="row"></tr>
+            </tbody>
+        </table>
+
+        <h3>Vue中ref引用dom的内容</h3>
+        <!-- 1. Vue中ref引用dom节点元素内容 -->
+        <!-- <div
+            ref="hello"
+            @click="handelClick">
+            hello world
+        </div> -->
+
+        <h3>Vue中ref引用组件的内容 - 计数器</h3>
+        <!-- 2. ref引用组件的内容 -->
+        <counter ref="counterOne" @change="handelChange"></counter>
+        <!-- 在外层模板监听该change事件 -->
+        <counter ref="counterTwo"@change="handelChange"></counter>
+        <div>{{total}}</div>
+
+
+
+    </div>
+
+    <script type="text/javascript">
+        Vue.component('row', {
+            template: `<tr><td>{{content}}</td></tr>`,
+            // 0x02 子组件必须是函数
+            data: function() {
+                return {
+                    content: "This is a row",
+                }
+            }
+        });
+
+        // 计数器组件
+        Vue.component('counter', {
+            template: `<div @click="handelCountClick">{{number}}</div>`,
+            data: function() {
+                return {
+                    number: 0,
+                }
+            },
+            methods: {
+                handelCountClick: function() {
+                    this.number ++;
+                    // 子组件向父组件传值，通过事件触发
+                    this.$emit('change')
+                }
+            }
+        })
+
+        // 0x03 Vue中ref引用的内容
+        var vm = new Vue({
+            el: '#app',
+            data: {
+              total: 0,
+            },
+            methods: {
+                handelClick: function() {
+                    // alert('click');
+
+                    // 通过ref引用指向的是dom节点元素
+                    // 1. 通过ref获取dom元素
+                    // console.log(this.$refs.hello);
+                    console.log(this.$refs.hello.innerHTML);
+                },
+
+                handelChange: function() {
+                    // console.log('change');
+
+                    // 通过ref引用vue组件对象
+                    // console.log(this.$refs.counterOne);
+                    this.total = this.$refs.counterOne.number + this.$refs.counterTwo.number;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
