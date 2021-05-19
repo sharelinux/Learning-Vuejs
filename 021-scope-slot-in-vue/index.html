@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>vue中的作用域插槽</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <child>
+            <!-- 子组件使用slot时会往里面传递一个item数据, 直接谁用item--props属性之中 -->
+            <template slot-scope="props">
+                <!-- <li>{{props.item}}</li> -->
+                <h4>{{props.item}}</h4>
+            </template>
+        </child>
+    </div>
+
+    <script type="text/javascript">
+        Vue.component('child', {
+            data: function() {
+                return {
+                    list: [1, 2, 3, 4, 5],
+                }
+            },
+            // 该组件做一个list列表循环，具体样式是使用slot从外部传入样式
+            template: `<div>
+                            <ul>
+                                <!-- <li v-for='item in list'>
+                                    {{item}}
+                                </li> -->
+
+                                <!-- 使用插槽从外部传入dom样式 -->
+                                <slot
+                                    v-for="item in list"
+                                    :item='item'
+                                    >
+                                </slot>
+                            </ul>
+                       </div>`,
+        })
+        // 总结:
+        // 父组件调用子组件时，传递了一个作用域插槽. 作用域插槽必须是template标签来声明,
+
+        // 应用场景:
+        /// 当子组件做循环, 它的dom结构应该从外部传递进来的时候，使用作用域插槽.
+        // 使用作用域插槽时, 子组件可以向父组件传递数据, 父组件传递样式给插槽.
+
+        var vm = new Vue({
+            el: '#app',
+        })
+    </script>
+</body>
+</html>
