@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>动态组件与v-once指令</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 方法1 通过v-if判断变量来决定显示那个组件 -->
+        <!-- <child-one v-if="type === 'child-one'"></child-one>
+        <child-two v-if="type === 'child-two'"></child-two> -->
+
+        <!-- 方法2 通过vue动态组件来决定显示那个组件 -->
+        <component :is="type"></component>
+
+        <button type="button" @click="handelBtnClick">change</button>
+    </div>
+
+    <script type="text/javascript">
+        // v-once会创建一次，提高静态资源的性能
+        Vue.component('child-one', {
+            template: `<div v-once>child-one</div>`,
+        })
+
+        Vue.component('child-two', {
+            template: `<div v-once>child-two</div>`,
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                type: "child-one",
+            },
+            methods: {
+                handelBtnClick: function() {
+                    this.type = (this.type === 'child-one' ?
+                                 'child-two': 'child-one')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
