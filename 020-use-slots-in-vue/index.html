@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>在Vue中使用插槽(slot)</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+
+        <!-- <child content="<p>Allen</p>"></child> -->
+
+        <!-- <child>
+            <p>Allen</p>
+        </child> -->
+
+        <body-content>
+            <!-- 具名插槽，定义 -->
+            <div class="header" slot='header'>header</div>
+            <div class="footer" slot='footer'>footer</div>
+        </body-ontent>
+
+    </div>
+
+    <script type="text/javascript">
+        // Vue.component('child', {
+        //     props: ['content'],
+        //     template: `<div>
+        //         <p>Hello</p>
+        //         <div v-html="this.content"></div>
+        //     </div>`
+        // })
+
+        // 父组件优雅的向子组件传递dom元素
+        // Vue.component('child', {
+        //     template: `<div>
+        //                     <p>Hello</p>
+        //                     <!-- 使用父组件传递的dom -->
+        //                     <slot>Slot默认值</slot>
+        //                </div>`
+        // })
+
+        Vue.component('body-content', {
+            template: `<div>
+                            <!-- 使用具名插槽 -->
+                            <slot name='header'>default header</slot>
+                            <div class='content'>content</div>
+                            <slot name='footer'>default footer</slot>
+                       </div>`
+        })
+
+
+        var vm = new Vue({
+            el: '#app',
+        })
+    </script>
+</body>
+</html>
