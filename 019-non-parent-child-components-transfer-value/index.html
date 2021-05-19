@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue非父子组件间的传值(Bus/总线/发布订阅模式/观察者模式)</title>
+    <script src="vue.js"></script>
+</head>
+<body>
+    <!--
+        1. 发布订阅模式(总线机制) ,解决vue中复杂的非父子组件数据传递
+        2. 数据层框架vuex， 解决vue中复杂的非父子组件数据传递
+    -->
+    <div id="app">
+        <child content="Lee"></child>
+        <child content="Allen"></child>
+    </div>
+
+    <script type="text/javascript">
+        // 给vue prototype上绑定bus属性
+        Vue.prototype.bus = new Vue()
+
+        // 父子组件传值
+        // Vue.component('child', {
+        //     props: {
+        //         content: String,
+        //     },
+        //     template: `<div>{{content}}</div>`,
+        // })
+
+        // 非父子组件通过bus传递
+        Vue.component('child', {
+            data: function() {
+              return {
+                // 解决父组件传值,单向数据流问题
+                selfContent: this.content,
+              }
+            },
+            props: {
+                content: String,
+            },
+            template: `<div @click="handelClick">{{selfContent}}</div>`,
+            methods: {
+                handelClick: function() {
+                    console.log(this.content);
+                    // 1. 通过bus向外触发事件
+                    this.bus.$emit('change', this.selfContent)
+                },
+            },
+            // 借用生命周期函数，在组件挂载的时候监听事件
+            mounted: function() {
+                // this 作用域变化
+                var this_ = this
+                // 2. 从bus上监听事件
+                this.bus.$on('change', function(msg) {
+                    console.log(msg);
+                    this_.selfContent = msg
+                })
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app',
+        })
+    </script>
+</body>
+</html>
