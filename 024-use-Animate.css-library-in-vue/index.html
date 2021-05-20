@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue中使用Animate.css库</title>
+    <script src="vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="animate.css">
+    <style type="text/css">
+        /* 1. keyframes css3 动画使用*/
+        /*@keyframes bounce-in {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.5);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }*/
+
+        /*
+        .fade-enter-active，{
+            transform-origin: left center;
+            animation: bounce-in 1s;
+        }
+        .fade-leave-active {
+            transform-origin: left center;
+            animation: bounce-in 1s reverse;
+        }
+        */
+
+        /* 自定义class名称内容 */
+        /*.enter，{
+            transform-origin: left center;
+            animation: bounce-in 1s;
+        }
+        .leave {
+            transform-origin: left center;
+            animation: bounce-in 1s reverse;
+        }*/
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- 2. 自定义class名称 -->
+        <transition
+            name="fade"
+            enter-active-class="animate__animated animate__swing"
+            leave-active-class="animate__animated animate__shakeX"
+        >
+            <div v-if="show">Hello World</div>
+        </transition>
+        <button @click="handelClick">切换</button>
+    </div>
+
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                show: true
+            },
+            methods: {
+                handelClick: function() {
+                    this.show = !this.show;
+                }
+            },
+        })
+
+        // https://animate.style/
+        // https://github.com/animate-css/animate.css
+    </script>
+</body>
+</html>
