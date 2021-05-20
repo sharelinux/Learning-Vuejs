@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在vue中同事使用过渡动和动画</title>
+    <script src="vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="animate.css">
+    <style rel="stylesheet" type="text/css">
+        .fade-enter, .fade-leave-to {
+            opacity: 0;
+        }
+        .fade-enter-active,.fade-leave-active {
+            transition: opacity 3s;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <transition
+            type="transition"
+            :duration="{enter: 5000, leave: 10000}"
+            name="fade"
+            appear
+            enter-active-class="animate__animated animate__swing fade-enter-active"
+            leave-active-class="animate__animated animate__shakeX fade-leave-active"
+            appear-active-class="animate__animated animate__swing"
+        >
+            <!-- 1. 使用appear-active-class初次显示也出现进场动画效果 -->
+
+            <!-- 2. 同时使用keyframe和transition动画 -->
+            <!--
+                enter-active-class同时添加"animate__animated animate__swing fade-enter-active"
+
+                leave-active-class同时添加“animate__animated animate__shakeX fade-leave-active”
+            -->
+
+            <!-- 3. keyframe和transition执行同步时间设置 -->
+            <!-- type="transition" -->
+
+            <!-- 4. 自定义动画设置时长 -->
+            <!-- :duration="10000" -->
+
+            <!-- 5. 自定义分别设置入场和出场动画时长 -->
+            <!-- :duration="{enter: 5000, leave: 10000}" -->
+            <div v-if="show">Hello World</div>
+        </transition>
+        <button @click="handelClick">切换</button>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                show: true,
+            },
+            methods: {
+                handelClick: function() {
+                    this.show = !this.show;
+                },
+            },
+        })
+    </script>
+</body>
+</html>
