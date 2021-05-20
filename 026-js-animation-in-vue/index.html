@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue中的Js动画与Velocity.js的结合</title>
+    <script src="vue.js"></script>
+    <script src="velocity.min.js"></script>
+</head>
+<body>
+    <div id="app">
+        <transition
+            name="fade"
+            @before-enter="handelBeforeEnter"
+            @enter="handelEnter"
+            @after-enter="handelAfterEnter"
+
+            @before-leave="handelBeforeLeave"
+            @leave="handelLeave"
+            @after-leave="handelAfterLeave"
+        >
+            <div v-if="show">Hello World</div>
+        </transition>
+        <button @click="handelClick">toggle</button>
+    </div>
+
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                show: true
+            },
+            methods: {
+                handelClick: function() {
+                    this.show = !this.show;
+                },
+                handelBeforeEnter: function(el) {
+                    console.log('beforeEnter');
+                    // el.style.color = 'red';
+
+                    el.style.opacity = 0;
+                },
+                handelEnter: function(el, done) {
+                    // el: html元素
+                    // done: 回调函数
+                    console.log("Enter")
+                    // setTimeout(() => {
+                    //     el.style.color = 'green';
+                    // }, 2000)
+
+                    // setTimeout(() => {
+                    //     // 回调done函数 会执行 after-enter
+                    //     done();
+                    // }, 4000)
+
+                    Velocity(el, {
+                                opacity: 1
+                            }, {
+                                duration: 1000,
+                                complete: done
+                            });
+                },
+                handelAfterEnter: function(el) {
+                    // el.style.color = "#000";
+                    console.log("AfterEnter");
+                },
+
+                handelBeforeLeave: function() {},
+                handelLeave: function() {},
+                handelAfterLeave: function() {},
+            },
+        })
+        // 1. 动画钩子before-enter、enter、after-enter 通过js实现进场动画效果
+        // 离场动画钩子 before-leave、leave、after-leave
+
+        // 2. Velocity.js的使用
+        // http://velocityjs.org/
+
+    </script>
+</body>
+</html>
