@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue中的动画封装与复用</title>
+    <script src="vue.js"></script>
+    <!-- <style type="text/css">
+      .v-enter, .v-leave-to {
+        opacity: 0;
+      }
+      .v-enter-active, .v-leave-active {
+        transition: opacity 1s;
+      }
+    </style> -->
+</head>
+<body>
+    <div id="app">
+        <!-- <transition>
+          <div v-show="show">Hello World</div>
+        </transition> -->
+
+        <!-- 动画组件的使用 -->
+          <fade>
+            <div v-if="show">Hello World</div>
+          </fade>
+
+          <fade>
+            <h3 v-if="show">Hello World</h3>
+          </fade>
+
+        <button @click="handelBtnClick">toggle</button>
+    </div>
+
+    <script type="text/javascript">
+      // 动画组件封装
+      Vue.component('fade', {
+          props: ['show'],
+          template: `
+            <transition @before-enter="handelBeforeEnter"
+              @enter="handelEnter">
+              <slot v-show="show"></slot>
+            </transition>
+          `,
+          // 使用js封装动画效果，去掉原来css动画定义
+          methods: {
+            handelBeforeEnter: function(el) {
+              el.style.color = 'red'
+            },
+            handelEnter: function(el, done) {
+              setTimeout(() => {
+                el.style.color = 'green'
+                done()
+              }, 2000)
+            }
+          }
+
+      })
+
+      var vm = new Vue({
+          el: '#app',
+          data: {
+              show: true,
+          },
+          methods: {
+              handelBtnClick: function() {
+                  this.show = !this.show;
+              }
+          }
+      })
+    </script>
+</body>
+</html>
